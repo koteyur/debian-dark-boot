@@ -1,0 +1,30 @@
+#!/bin/sh
+# Installed by debian-dark-boot install.sh. uninstall.sh removes it.
+# Two fixes for the Plymouth theme debian-dark in the initramfs.
+# 1. The plymouth hook replaces watermark.png of every two-step theme with
+#    the Debian logo from desktop-base. Put our logo back.
+# 2. The plymouth hook copies only one fontconfig file (60-latin.conf).
+#    Copy the system choice of anti-aliasing and hinting too, so the text
+#    looks the same as on the desktop.
+# mkinitramfs runs the hooks in /etc after all hooks in /usr/share.
+PREREQ=""
+prereqs()
+{
+	echo "$PREREQ"
+}
+case "$1" in
+	prereqs)
+		prereqs
+		exit 0
+		;;
+esac
+. /usr/share/initramfs-tools/hook-functions
+THEME_DIR=/usr/share/plymouth/themes/debian-dark
+if [ -f "$THEME_DIR/watermark.png" ] && [ -d "$DESTDIR$THEME_DIR" ]; then
+	cp "$THEME_DIR/watermark.png" "$DESTDIR$THEME_DIR/watermark.png"
+fi
+[ -d "$DESTDIR/etc/fonts/conf.d" ] || exit 0
+for conf in /etc/fonts/conf.d/10-*.conf /etc/fonts/conf.d/11-*.conf; do
+	[ -e "$conf" ] && cp -L "$conf" "$DESTDIR/etc/fonts/conf.d/"
+done
+exit 0

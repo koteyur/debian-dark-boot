@@ -1,0 +1,64 @@
+# GRUB theme "debian-dark", scale @SCALE@: a grey Debian logo on a black
+# screen, with the boot menu under it. Made by src/make-assets.py.
+# All positions are relative to the screen center, so the layout is the
+# same at every resolution. GRUB does not scale anything. logo.png has
+# clear rows under the logo, so the logo sits above the center, at the
+# same pixels as in the Plymouth theme.
+
+title-text: ""
+desktop-color: "#000000"
+# The terminal window (command line, editor and the "Loading Linux"
+# messages) is under the logo, so the logo stays on the screen.
+terminal-font: "@TERM_FONT@"
+terminal-left: "50%-@TERM_LEFT@"
+terminal-top: "50%@TERM_TOP@"
+terminal-width: "@TERM_W@"
+terminal-height: "@TERM_H@"
+terminal-border: "@TERM_BORDER@"
+
++ image {
+  left = 50%-@LOGO_LEFT@
+  top = 50%-@LOGO_TOP@
+  width = @LOGO_W@
+  height = @LOGO_H@
+  file = "logo.png"
+}
+
++ boot_menu {
+  left = 50%-@MENU_LEFT@
+  top = 50%@MENU_TOP@
+  width = @MENU_W@
+  height = @MENU_H@
+  item_font = "@ITEM_FONT@"
+  selected_item_font = "@ITEM_FONT@"
+  item_color = "#7a7a7a"
+  selected_item_color = "#e6e6e6"
+  selected_item_pixmap_style = "select_*.png"
+  item_height = @ITEM_H@
+  item_spacing = @ITEM_SP@
+  item_padding = @ITEM_PAD@
+  icon_width = 0
+  icon_height = 0
+  item_icon_space = 0
+  scrollbar = false
+}
+
+# Countdown: a thin line under the menu that gets shorter.
++ progress_bar {
+  id = "__timeout__"
+  left = 50%-@MENU_LEFT@
+  top = 50%@BAR_TOP@
+  width = @MENU_W@
+  height = @BAR_H@
+  bar_style = "bar_*.png"
+  highlight_style = "hl_*.png"
+}
+
+# Key help. A picture, so that it has smooth edges.
++ image {
+  left = 50%-@HINT_LEFT@
+  top = 100%-@HINT_BOTTOM@
+  width = @HINT_W@
+  height = @HINT_H@
+  file = "hint.png"
+}

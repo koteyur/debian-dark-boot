@@ -1,0 +1,22 @@
+# Root file system of a test VM: a fresh Debian trixie with GRUB (EFI,
+# shim, signed GRUB), initramfs-tools and the stock kernel.
+# VARIANT=luks: like a laptop with disk encryption. plymouth and
+#   plymouth-label are installed, plymouth-themes is not.
+# VARIANT=plain: no disk encryption and no Plymouth at all.
+FROM docker.io/library/debian:trixie-slim
+ARG VARIANT=luks
+RUN echo 'path-exclude=/usr/share/doc/*' > /etc/dpkg/dpkg.cfg.d/nodoc \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      systemd-sysv udev dbus kmod procps less nano ca-certificates \
+      linux-image-amd64 initramfs-tools zstd \
+      console-setup keyboard-configuration kbd \
+      e2fsprogs dosfstools fdisk efibootmgr os-prober \
+      grub-efi-amd64 grub-efi-amd64-signed shim-signed \
+      fonts-dejavu-core fonts-noto-core desktop-base \
+ && if [ "$VARIANT" = luks ]; then \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        cryptsetup cryptsetup-initramfs lvm2 plymouth plymouth-label; \
+    fi \
+ && mkdir -p /root/debs && cd /root/debs && apt-get download grub-common \
+ && rm -rf /var/lib/apt/lists/*

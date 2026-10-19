@@ -1,0 +1,69 @@
+[Plymouth Theme]
+Name=Debian Dark
+Description=Grey Debian logo on black with a spinner. Matches the GRUB theme debian-dark.
+# Scale @SCALE@. Made by src/make-assets.py.
+ModuleName=two-step
+
+[two-step]
+ImageDir=/usr/share/plymouth/themes/debian-dark
+Font=Sans @FONT@
+TitleFont=Sans @TITLE_FONT@
+MonospaceFont=monospace @MONO_FONT@
+# The logo image is centered, as in GRUB. It has clear rows under the
+# logo, so the logo sits above the center.
+WatermarkHorizontalAlignment=.5
+WatermarkVerticalAlignment=.5
+# The password dialog is centered too. Its images have clear rows, so the
+# password box sits under the logo. The spinner frame is centered at 3/4 of
+# the screen height. The spinner is then halfway between the logo and the
+# bottom of the screen.
+HorizontalAlignment=.5
+VerticalAlignment=@SPINNER_VA@
+DialogHorizontalAlignment=.5
+DialogVerticalAlignment=.5
+TitleHorizontalAlignment=.5
+TitleVerticalAlignment=.75
+Transition=none
+TransitionDuration=0.0
+BackgroundStartColor=0x000000
+BackgroundEndColor=0x000000
+ProgressBarBackgroundColor=0x202020
+ProgressBarForegroundColor=0x808080
+MessageBelowAnimation=true
+
+[boot-up]
+UseEndAnimation=false
+
+[shutdown]
+UseEndAnimation=false
+
+[reboot]
+UseEndAnimation=false
+
+[updates]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Installing Updates...
+SubTitle=Do not turn off your computer
+
+[system-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Upgrading System...
+SubTitle=Do not turn off your computer
+
+[firmware-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Upgrading Firmware...
+SubTitle=Do not turn off your computer
+
+[system-reset]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Resetting System...
+SubTitle=Do not turn off your computer

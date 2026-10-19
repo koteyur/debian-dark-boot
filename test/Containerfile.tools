@@ -1,0 +1,9 @@
+# Tools to build the assets and to run the QEMU tests.
+FROM docker.io/library/debian:trixie-slim
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      qemu-system-x86 qemu-utils ovmf \
+      grub-efi-amd64-bin grub-common grub2-common mtools dosfstools e2fsprogs fdisk \
+      imagemagick librsvg2-bin python3 python3-pil fonts-dejavu-core \
+      plymouth plymouth-themes plymouth-label desktop-base \
+      socat xxd ca-certificates \
+    && rm -rf /var/lib/apt/lists/*

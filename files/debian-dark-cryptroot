@@ -1,0 +1,27 @@
+#!/bin/sh
+# Installed by debian-dark-boot install.sh. uninstall.sh removes it.
+# Hide the "set up successfully" message of cryptroot under the splash.
+# Plymouth shows each cryptroot message under the spinner, until the next
+# message. Errors, such as a wrong password, stay. After a good password
+# the message is cleared instead. Without "splash" on the kernel command
+# line the message shows as usual. Only the copy in the initramfs changes.
+# If the line is not found, the hook changes nothing.
+# mkinitramfs runs the hooks in /etc after all hooks in /usr/share.
+PREREQ=""
+prereqs()
+{
+	echo "$PREREQ"
+}
+case "$1" in
+	prereqs)
+		prereqs
+		exit 0
+		;;
+esac
+. /usr/share/initramfs-tools/hook-functions
+script="$DESTDIR/scripts/local-top/cryptroot"
+[ -f "$script" ] || exit 0
+old='cryptsetup_message "$CRYPTTAB_NAME: set up successfully"'
+new='if grep -qw splash /proc/cmdline \&\& plymouth --ping; then'
+new="$new plymouth message --text=\"\"; else $old; fi"
+sed -i "s|^\\([[:space:]]*\\)$old\$|\\1$new|" "$script"
