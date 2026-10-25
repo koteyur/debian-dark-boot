@@ -237,9 +237,10 @@ def text_image(text, ttf, size, grey):
 
 
 def make_grub_font(out, ttf, size, name):
-    # Latin, punctuation, arrows and box drawing. GRUB draws its frames
-    # and the scroll arrows with box drawing characters.
-    ranges = "0x20-0x24F,0x2000-0x206F,0x2190-0x21FF,0x2500-0x25FF"
+    # Latin and Cyrillic (including Ukrainian and Belarusian letters),
+    # punctuation, arrows and box drawing for GRUB menus and terminals.
+    ranges = ("0x20-0x24F,0x400-0x45F,0x490-0x491,"
+              "0x2000-0x206F,0x2190-0x21FF,0x2500-0x25FF")
     path = os.path.join(out, name)
     subprocess.run(["grub-mkfont", "-s", str(size), "-r", ranges, "-o", path,
                     os.path.join(DEJAVU, ttf)], check=True)
